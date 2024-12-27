@@ -46,3 +46,5 @@ Contact
 =======
 
 The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+
+https://query1.finance.yahoo.com/v8/finance/chart/aapl?metrics=high&interval=1d&range=1y
