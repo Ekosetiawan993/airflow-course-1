@@ -5,6 +5,7 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 import requests
 from airflow.providers.docker.operators.docker import DockerOperator
+from airflow.providers.slack.notifications.slack import SlackNotifier
 from astro import sql as aql
 from astro.files import File
 from astro.sql.table import Table, Metadata
@@ -22,7 +23,17 @@ SYMBOL = "AAPL"
     start_date=datetime(2024, 1, 1),
     schedule="@daily",
     catchup=False,
-    tags=["stock_market"]
+    tags=["stock_market"],
+    on_success_callback=SlackNotifier(
+        slack_conn_id="slack",
+        channel="stock-market",
+        text="The stock_market DAG success"
+    ),
+    on_failure_callback=SlackNotifier(
+        slack_conn_id="slack",
+        channel="stock-market",
+        text="The stock_market DAG FAILED"
+    )
 )
 def stock_market():
     # try to not mix decorator API with the explicit operator API
